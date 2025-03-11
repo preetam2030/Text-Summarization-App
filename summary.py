@@ -6,7 +6,6 @@
 
 import os
 import getpass
-import openai
 import streamlit as st
 from langchain_openai import OpenAI
 import google.generativeai as genai
@@ -24,13 +23,14 @@ import tiktoken # to count the tokens
 
 
 # Set your Google API key
-def _set_env(var: str):
-    if not os.environ.get(var):
-        import getpass
-        os.environ[var] = getpass.getpass(f"{var}: ")
+# def _set_env(var: str):
+#     if not os.environ.get(var):
+#         import getpass
+#         os.environ[var] = getpass.getpass(f"{var}: ")
 
-_set_env("GOOGLE_API_KEY")
-api_key = os.environ.get("GOOGLE_API_KEY")
+# _set_env("GOOGLE_API_KEY")
+# api_key = os.environ.get("GOOGLE_API_KEY")
+api_key = st.secrets["GOOGLE_API_KEY"]
 genai.configure(api_key=api_key)
 
 
