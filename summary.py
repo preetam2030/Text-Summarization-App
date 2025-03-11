@@ -31,6 +31,9 @@ import tiktoken # to count the tokens
 # _set_env("GOOGLE_API_KEY")
 # api_key = os.environ.get("GOOGLE_API_KEY")
 api_key = st.secrets["GOOGLE_API_KEY"]
+if not api_key:
+    st.error("Please provide a Google API key to use this application.")
+    st.stop()
 genai.configure(api_key=api_key)
 
 
