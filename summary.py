@@ -7,7 +7,6 @@
 import os
 import getpass
 import streamlit as st
-from langchain_openai import OpenAI
 import google.generativeai as genai
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
@@ -35,24 +34,6 @@ if not api_key:
     st.error("Please provide a Google API key to use this application.")
     st.stop()
 genai.configure(api_key=api_key)
-
-
-# In[43]:
-
-
-#encoder = tiktoken.get_encoding("cl100k_base")
-
-
-# In[25]:
-
-
-if 'tokens_consumed' not in st.session_state:
-    st.session_state.tokens_consumed = 0  # Initialize total token count if not present
-if 'query_tokens' not in st.session_state:
-    st.session_state.query_tokens = 0     # Initialize query token count if not present
-if 'response_tokens' not in st.session_state:
-    st.session_state.response_tokens = 0  # Initialize response token count if not present
-
 
 # In[81]:
 
@@ -138,27 +119,8 @@ if text:
     with st.spinner('Generating summary...'):
         summary = generate_response(text)
     st.write(summary)
-   # Simplified token counting for Gemini (approximated based on characters)
-    query_tokens = len(text) // 4
-    response_tokens = len(summary) // 4
-
-
-# In[93]:
-
-
-st.session_state.query_tokens += query_tokens
-st.session_state.response_tokens += response_tokens
-st.session_state.tokens_consumed += (query_tokens + response_tokens)
-st.sidebar.write(f"Total Tokens Consumed: {st.session_state.tokens_consumed}")
-st.sidebar.write(f"Query Tokens: {st.session_state.query_tokens}")
-st.sidebar.write(f"Response Tokens: {st.session_state.response_tokens}")
-
-print("Tokens consumed in this transaction...")
-print("Query token = " , query_tokens)
-print("Response tokens = " , response_tokens)
-st.session_state.tokens_consumed = 0
-st.session_state.query_tokens = 0
-st.session_state.response_tokens= 0
+  
+   
 
 
 # In[ ]:
